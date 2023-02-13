@@ -14,12 +14,16 @@ public class Ventana extends JFrame{
         //Elementos de la ventana
         JButton btnStart = new JButton("Start");
         Imagen img1 = new Imagen("images/link1.png","images/link2.png", 200);
-        Imagen img2 = new Imagen("images/mario1.png", "images/mario2.png", 100);
+        Imagen2 img2 = new Imagen2("images/mario1.png", "images/mario2.png");
 
         //posiciones de los elementos
         btnStart.setBounds(10, 10, 75, 25);
         img1.setBounds(10, 40, 42, 42);
         img2.setBounds(10, 100, 42, 42);
+
+        //FOCUS
+        btnStart.setFocusable(false);
+        img2.setFocusable(true);
 
         //Action Listener
         ActionListener listener = new ActionListener(){
@@ -35,12 +39,14 @@ public class Ventana extends JFrame{
 
         //Agregamos los actionListener
         btnStart.addActionListener(listener);
+        img2.addKeyListener(img2);
 
         //Agregamos los elementos a la ventana
         add(btnStart);
         add(img1);
         add(img2);
 
+        //Configuracion de la ventana
         setTitle("Ventana 3");
         setSize(300, 300);
         setResizable(false);
