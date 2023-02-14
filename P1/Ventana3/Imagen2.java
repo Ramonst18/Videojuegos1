@@ -52,52 +52,15 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
             }
             
             //SALTO DEL PERSONAJE
-            if (this.up) {
-
-                //obtenemos la posicion del salto
-                this.posYSaltoAlto = this.posY - 50;
-                this.posYSaltoBajo = this.getY();
-
-                //Subida 
-                for ( this.posY = this.getY(); this.posY >= posYSaltoAlto; this.posY -= 5) {
-                    //incrementamos la posicion
-                    setBounds(posX, posY, 42, 42);
-                    
-                    //System.out.println(this.posY);
-
-                    //CAMBIOS ENTRE SPRITES DE MOVIMIENTO
-                    icon = new ImageIcon(this.getClass().getResource(this.url1));
-                    setIcon(icon);
-
-                    //Velocidad de refresco de pantalla
-                    try {
-                        //Fotoprogramas d:
-                        Thread.sleep(50);
-                    } catch (Exception e) {
-                        // TODO: handle exception
-                    }    
-                }
-
-                //BAJADA
-                for ( this.posY = this.getY(); this.posY < posYSaltoBajo; this.posY += 5) {
-                    //incrementamos la posicion
-                    setBounds(posX, posY, 42, 42);
-                    
-                    //System.out.println(this.posY);
-
-                    //CAMBIOS ENTRE SPRITES DE MOVIMIENTO
-                    icon = new ImageIcon(this.getClass().getResource(this.url1));
-                    setIcon(icon);
-
-                    //Velocidad de refresco de pantalla
-                    try {
-                        //Fotoprogramas d:
-                        Thread.sleep(50);
-                    } catch (Exception e) {
-                        // TODO: handle exception
-                    }    
-                }
-
+            //Salto a la derecha
+            if (this.right && this.up) {
+                movimientoConSalto(3, 200, 50);
+            } else if(this.left && this.up) {
+                //Salto a la izquierda
+                movimientoConSalto(3, 200, 50);
+            } else if (this.up) {
+                //Salto en el mismo lugar
+                movimientoConSalto(0, 0, 50);
             }
         }
         
@@ -189,7 +152,64 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
         }
     }
 
-    public void movimientoConSalto(int desplazamiento, int velocidad, int velocidadSalto){
+    public void movimientoConSalto(int desplazamiento, int velocidad, int velocidadSalto) {
 
+        // obtenemos la posicion del salto
+        this.posYSaltoAlto = this.posY - 50;
+        this.posYSaltoBajo = this.getY();
+
+        // Subida
+        for (this.posY = this.getY(); this.posY >= posYSaltoAlto; this.posY -= 5) {
+            //Desplazamos el personaje en X
+            if (this.right) {
+                this.posX += desplazamiento;
+            } else if(this.left){
+                this.posX -= desplazamiento;
+            }
+
+            // incrementamos la posicion
+            setBounds(posX, posY, 42, 42);
+
+            // System.out.println(this.posY);
+
+            // CAMBIOS ENTRE SPRITES DE MOVIMIENTO
+            icon = new ImageIcon(this.getClass().getResource(this.url1));
+            setIcon(icon);
+
+            // Velocidad de refresco de pantalla
+            try {
+                // Fotoprogramas d:
+                Thread.sleep(50);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        }
+
+        // BAJADA
+        for (this.posY = this.getY(); this.posY < posYSaltoBajo; this.posY += 5) {
+            //Desplazamos el personaje en X
+            if (this.right) {
+                this.posX += desplazamiento;
+            } else if(this.left){
+                this.posX -= desplazamiento;
+            }
+            
+            // incrementamos la posicion
+            setBounds(posX, posY, 42, 42);
+
+            // System.out.println(this.posY);
+
+            // CAMBIOS ENTRE SPRITES DE MOVIMIENTO
+            icon = new ImageIcon(this.getClass().getResource(this.url1));
+            setIcon(icon);
+
+            // Velocidad de refresco de pantalla
+            try {
+                // Fotoprogramas d:
+                Thread.sleep(50);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        }
     }
 }
