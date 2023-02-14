@@ -8,8 +8,8 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
     //atributos
     private String url1, url2;
     private ImageIcon icon;
-    private int posX = 10;
-    private boolean runStatus = false, right = false, shift = false, up = true;
+    private int posX = 10, posY = 0, posYSaltoBajo = 0, posYSaltoAlto = 0;
+    private boolean runStatus = false, right = false, shift = false, up = false, left = false;
 
 
     //CONSTRUCTOR
@@ -25,60 +25,80 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
 
     //HILO
     public void run(){
-
+        
         //habilitamos el movimiento del personaje
         runStatus = true;
 
         //Escucha permanente
         while (true) {
 
+            //obtenemos la posicion
+            this.posX = this.getX();
+            this.posY = this.getY();
+
+            System.out.println(this.right);
             //MOVIMIENTO DEL PERSONAJE PARTE DERECHA
             if(this.right && this.shift){
-                //incrementamos la posicion
-                this.posX += 11;
-                setBounds(posX, 100, 42, 42);
-    
-                //CAMBIOS ENTRE SPRITES DE MOVIMIENTO
-                //preguntamos si es par o inpar, para cambiar los iconos
-                if( this.posX % 2 != 0){
-                    icon = new ImageIcon(this.getClass().getResource(this.url2));
-                }else{
-                    icon = new ImageIcon(this.getClass().getResource(this.url1));
-                }
-    
-                setIcon(icon);
-
-                //Velocidad de refresco de pantalla
-                try {
-                    //Fotoprogramas d:
-                    Thread.sleep(100);
-                } catch (Exception e) {
-                    // TODO: handle exception
-                }
+                movimiento(11, 100);
             }else if (this.right) {
-                //incrementamos la posicion
-                this.posX += 3;
-                setBounds(posX, 100, 42, 42);
-    
-                //CAMBIOS ENTRE SPRITES DE MOVIMIENTO
-                //preguntamos si es par o inpar, para cambiar los iconos
-                if( this.posX % 2 != 0){
-                    icon = new ImageIcon(this.getClass().getResource(this.url2));
-                }else{
-                    icon = new ImageIcon(this.getClass().getResource(this.url1));
-                }
-    
-                setIcon(icon);
-
-                //Velocidad de refresco de pantalla
-                try {
-                    //Fotoprogramas d:
-                    Thread.sleep(200);
-                } catch (Exception e) {
-                    // TODO: handle exception
-                }
+                movimiento(3, 200);
             }
             
+            //MOVIMIENTO DEL PERSONAJE PARTE IZQUIERDA
+            if(this.left && this.shift){
+                movimiento(11, 100);
+            }else if (this.left) {
+                movimiento(3, 200);
+            }
+            
+            //SALTO DEL PERSONAJE
+            if (this.up) {
+
+                //obtenemos la posicion del salto
+                this.posYSaltoAlto = this.posY - 50;
+                this.posYSaltoBajo = this.getY();
+
+                //Subida 
+                for ( this.posY = this.getY(); this.posY >= posYSaltoAlto; this.posY -= 5) {
+                    //incrementamos la posicion
+                    setBounds(posX, posY, 42, 42);
+                    
+                    //System.out.println(this.posY);
+
+                    //CAMBIOS ENTRE SPRITES DE MOVIMIENTO
+                    icon = new ImageIcon(this.getClass().getResource(this.url1));
+                    setIcon(icon);
+
+                    //Velocidad de refresco de pantalla
+                    try {
+                        //Fotoprogramas d:
+                        Thread.sleep(50);
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                    }    
+                }
+
+                //BAJADA
+                for ( this.posY = this.getY(); this.posY < posYSaltoBajo; this.posY += 5) {
+                    //incrementamos la posicion
+                    setBounds(posX, posY, 42, 42);
+                    
+                    //System.out.println(this.posY);
+
+                    //CAMBIOS ENTRE SPRITES DE MOVIMIENTO
+                    icon = new ImageIcon(this.getClass().getResource(this.url1));
+                    setIcon(icon);
+
+                    //Velocidad de refresco de pantalla
+                    try {
+                        //Fotoprogramas d:
+                        Thread.sleep(50);
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                    }    
+                }
+
+            }
         }
         
     }
@@ -86,8 +106,6 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
     
     //METODOS DEL KEYLISTENER
     public void keyPressed(KeyEvent e) {
-        //obtenemos la posicion
-        this.posX = this.getX();
         
         //DETECTAMOS LOS BOTONES DEL MOVIMIENTO DEL PERSONAJE
         if (runStatus) {
@@ -104,11 +122,13 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
             
             //IZQUIERDA
             if (e.getKeyCode() == KeyEvent.VK_LEFT){
-                this.right = true;
+                this.left = true;
             }
 
             //SALTO
-                
+            if (e.getKeyCode() == KeyEvent.VK_UP) {
+                this.up = true;
+            }
         }
         
     }
@@ -116,14 +136,19 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
     public void keyReleased(KeyEvent e) {
 
         //BOTONES
-        //DERECHA
         if (e.getKeyCode() == KeyEvent.VK_RIGHT){
             right = false;
         }
         if(e.getKeyCode() == KeyEvent.VK_SHIFT){
             shift = false;
         } 
+        if (e.getKeyCode() == KeyEvent.VK_LEFT){
+            this.left = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_UP){
+            this.up = false;
 
+        }
 
         //ESTADO IDLE
         icon = new ImageIcon(this.getClass().getResource(this.url1));
@@ -134,4 +159,34 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
         // TODO Auto-generated method stub
         
     }
+
+    public void movimiento(int desplezamiento, int velocidad){
+        
+        //Desplazamos el personaje en X
+        if (this.right) {
+            this.posX += desplezamiento;
+        } else if(this.left){
+            this.posX -= desplezamiento;
+        }
+        setBounds(posX, posY, 42, 42);
+
+        //CAMBIOS ENTRE SPRITES DE MOVIMIENTO
+        //preguntamos si es par o inpar, para cambiar los iconos
+        if( this.posX % 2 != 0){
+            icon = new ImageIcon(this.getClass().getResource(this.url2));
+        }else{
+            icon = new ImageIcon(this.getClass().getResource(this.url1));
+        }
+
+        setIcon(icon);
+
+        //Velocidad de refresco de pantalla
+        try {
+            //Fotoprogramas d:
+            Thread.sleep(velocidad);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+
 }
