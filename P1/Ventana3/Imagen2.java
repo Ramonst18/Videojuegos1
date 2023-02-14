@@ -189,4 +189,7 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
         }
     }
 
+    public void movimientoConSalto(int desplazamiento, int velocidad, int velocidadSalto){
+
+    }
 }
