@@ -12,11 +12,14 @@ public class Ventana extends JFrame{
 
     private void initValues(){
         //Elementos de la ventana
+        Fondo fondo = new Fondo("images/fondo.png");
         JButton btnStart = new JButton("Start");
         Imagen img1 = new Imagen("images/link1.png","images/link2.png", 200);
-        Imagen2 img2 = new Imagen2("images/mario1.png", "images/mario2.png");
+        Imagen2 img2 = new Imagen2("images/mario1.png", "images/mario2.png", fondo);
+
 
         //posiciones de los elementos
+        fondo.setBounds(0,-150,300,600);
         btnStart.setBounds(10, 10, 75, 25);
         img1.setBounds(10, 40, 42, 42);
         img2.setBounds(10, 100, 42, 42);
@@ -45,6 +48,7 @@ public class Ventana extends JFrame{
         add(btnStart);
         add(img1);
         add(img2);
+        add(fondo);
 
         //Configuracion de la ventana
         setTitle("Ventana 3");

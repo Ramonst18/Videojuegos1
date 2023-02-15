@@ -2,6 +2,7 @@ package P1.Ventana3;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.File;
 
 public class Imagen2 extends JLabel implements Runnable, KeyListener{
     
@@ -10,12 +11,15 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
     private ImageIcon icon;
     private int posX = 10, posY = 0, posYSaltoBajo = 0, posYSaltoAlto = 0;
     private boolean runStatus = false, right = false, shift = false, up = false, left = false;
-
+    private Fondo fondo;
+    private File file ;
 
     //CONSTRUCTOR
-    public Imagen2(String url1, String url2){
+    public Imagen2(String url1, String url2, Fondo fondo){
         this.url1 = url1;
         this.url2 = url2;
+        this.fondo = fondo;
+        file = new File(url1);
 
         //Icon
         icon = new ImageIcon(this.getClass().getResource(url1));
@@ -25,7 +29,11 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
 
     //HILO
     public void run(){
-        
+        /*Tarea, poner el fondo en la aplicacion, el fondo se estara moviendo cuando el personaje llegue al medio,
+         * cuando se llegue al final del fondo, el fondo se detendra y el personaje se empezara a mover hasta la "meta"
+         */
+
+
         //habilitamos el movimiento del personaje
         runStatus = true;
 
@@ -36,7 +44,10 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
             this.posX = this.getX();
             this.posY = this.getY();
 
-            System.out.println(this.right);
+            //System.out.println(this.right);
+            //Verifica si existe el archivo
+            file.exists();  //NECESARIO PPARA QUE SE EJECUTE EL JUEGO
+
             //MOVIMIENTO DEL PERSONAJE PARTE DERECHA
             if(this.right && this.shift){
                 movimiento(11, 100);
@@ -127,11 +138,18 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
         
         //Desplazamos el personaje en X
         if (this.right) {
-            this.posX += desplezamiento;
+            if (this.posX >= 150) {
+                this.fondo.mover_fondo(desplezamiento);
+            }else{
+                this.posX += desplezamiento;
+            }
         } else if(this.left){
             this.posX -= desplezamiento;
         }
+
+        //Verificamos de que este a la mitad de la pantalla
         setBounds(posX, posY, 42, 42);
+        
 
         //CAMBIOS ENTRE SPRITES DE MOVIMIENTO
         //preguntamos si es par o inpar, para cambiar los iconos
