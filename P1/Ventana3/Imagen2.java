@@ -186,9 +186,19 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
         for (this.posY = this.getY(); this.posY >= posYSaltoAlto; this.posY -= 5) {
             //Desplazamos el personaje en X
             if (this.right) {
-                this.posX += desplazamiento;
+                if (this.posX >= 150 && (this.fondo.getX() * -1 ) < (this.fondo.getIcon().getIconWidth() - 300) ) {
+                    //verificamos que este despues de la mitad de la ventana y este en un lugar menor a la dimencion del icon menos la dimension de la ventana
+                    this.fondo.mover_fondo(desplazamiento);
+                }else{
+                    this.posX += desplazamiento;
+                }
             } else if(this.left){
-                this.posX -= desplazamiento;
+                if (this.posX <= 150 && this.fondo.getX() < 0) {
+                    //verificamos si la posicion del personaje es menos de la mitad de la pantalla y la posicion del fondo es menor de 0 para realizar el movimiento
+                    this.fondo.mover_fondo(desplazamiento * -1);
+                }else{
+                    this.posX -= desplazamiento;
+                }
             }
 
             // incrementamos la posicion
@@ -210,12 +220,22 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
         }
 
         // BAJADA
-        for (this.posY = this.getY(); this.posY < posYSaltoBajo; this.posY += 5) {
+        for (this.posY = this.getY(); this.posY <= posYSaltoBajo; this.posY += 5) {
             //Desplazamos el personaje en X
             if (this.right) {
-                this.posX += desplazamiento;
+                if (this.posX >= 150 && (this.fondo.getX() * -1 ) < (this.fondo.getIcon().getIconWidth() - 300) ) {
+                    //verificamos que este despues de la mitad de la ventana y este en un lugar menor a la dimencion del icon menos la dimension de la ventana
+                    this.fondo.mover_fondo(desplazamiento);
+                }else{
+                    this.posX += desplazamiento;
+                }
             } else if(this.left){
-                this.posX -= desplazamiento;
+                if (this.posX <= 150 && this.fondo.getX() < 0) {
+                    //verificamos si la posicion del personaje es menos de la mitad de la pantalla y la posicion del fondo es menor de 0 para realizar el movimiento
+                    this.fondo.mover_fondo(desplazamiento * -1);
+                }else{
+                    this.posX -= desplazamiento;
+                }
             }
             
             // incrementamos la posicion
@@ -235,5 +255,6 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
                 // TODO: handle exception
             }
         }
+        System.out.println(this.posY); 
     }
 }
