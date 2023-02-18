@@ -19,7 +19,7 @@ public class Ventana extends JFrame{
 
 
         //posiciones de los elementos
-        fondo.setBounds(0,-150,300,600);
+        fondo.setBounds(0,0,800,300);
         btnStart.setBounds(10, 10, 75, 25);
         img1.setBounds(10, 40, 42, 42);
         img2.setBounds(10, 100, 42, 42);

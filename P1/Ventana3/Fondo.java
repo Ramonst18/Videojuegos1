@@ -2,7 +2,6 @@ package P1.Ventana3;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import java.awt.Graphics;
 
 public class Fondo extends JLabel {
     //atributos
@@ -14,20 +13,20 @@ public class Fondo extends JLabel {
 
         //Icon
         icon = new ImageIcon(this.getClass().getResource(url));
+        
         setIcon(icon);
     }
 
     //Movimiento de la imagen
     public void mover_fondo(int x){
 
-        //MOvemos el fondo
-        setBounds(this.getX() - x, -150, 300, 600);
-        
-        //actualizamos el fondo
-        //icon = new ImageIcon(this.getClass().getResource(url));
-        //setIcon(icon);
-        
-        icon.paintIcon(this, getGraphics(), x, -150);
+        //Movemos el fondo
+        setBounds(this.getX() - x, 0, 800, 300);
+        //System.out.println(this.getX());
+    }
+
+    public ImageIcon getIcon(){
+        return this.icon;
     }
     
 }
