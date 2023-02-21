@@ -10,7 +10,7 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
     private String url1, url2;
     private ImageIcon icon;
     private int posX = 10, posY = 0, posYSaltoBajo = 0, posYSaltoAlto = 0;
-    private boolean runStatus = false, right = false, shift = false, up = false, left = false;
+    private boolean runStatus = false, right = false, shift = false, up = false, left = false, changeImg = false;
     private Fondo fondo;
     private File file ;
 
@@ -29,11 +29,6 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
 
     //HILO
     public void run(){
-        /*Tarea, poner el fondo en la aplicacion, el fondo se estara moviendo cuando el personaje llegue al medio,
-         * cuando se llegue al final del fondo, el fondo se detendra y el personaje se empezara a mover hasta la "meta"
-         */
-
-
         //habilitamos el movimiento del personaje
         runStatus = true;
 
@@ -63,9 +58,15 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
             }
             
             //SALTO DEL PERSONAJE
-            //Salto a la derecha
-            if (this.right && this.up) {
+            if (this.right && this.shift && this.up) {
+                //Salto a la derecha con correr
+                movimientoConSalto(11, 100, 50);
+            } else if (this.right && this.up) {
+                //salto a la derecha
                 movimientoConSalto(3, 200, 50);
+            } else if (this.left && this.shift && this.up) {
+                //salto a la izquierda con correr
+                movimientoConSalto(11, 100, 50);
             } else if(this.left && this.up) {
                 //Salto a la izquierda
                 movimientoConSalto(3, 200, 50);
@@ -159,10 +160,12 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
 
         //CAMBIOS ENTRE SPRITES DE MOVIMIENTO
         //preguntamos si es par o inpar, para cambiar los iconos
-        if( this.posX % 2 != 0){
+        if( changeImg ){
             icon = new ImageIcon(this.getClass().getResource(this.url2));
+            changeImg = false;
         }else{
             icon = new ImageIcon(this.getClass().getResource(this.url1));
+            changeImg = true;
         }
 
         setIcon(icon);
@@ -257,4 +260,5 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
         }
         System.out.println(this.posY); 
     }
+
 }
