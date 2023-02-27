@@ -3,6 +3,7 @@ package P1.Ventana3;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.File;
+import java.awt.geom.*;
 
 public class Imagen2 extends JLabel implements Runnable, KeyListener{
     
@@ -13,6 +14,7 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
     private boolean runStatus = false, right = false, shift = false, up = false, left = false, changeImg = false;
     private Fondo fondo;
     private File file ;
+    Wall [] walls;
 
     //CONSTRUCTOR
     public Imagen2(String url1, String url2, Fondo fondo){
@@ -39,9 +41,14 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
             this.posX = this.getX();
             this.posY = this.getY();
 
-            //System.out.println(this.right);
             //Verifica si existe el archivo
             file.exists();  //NECESARIO PPARA QUE SE EJECUTE EL JUEGO
+
+            //Si llegase a colisionar
+            if (interseccion()) {
+                //terminamos el ciclo, terminamos la ejecucion del programa
+                break;
+            }
 
             //MOVIMIENTO DEL PERSONAJE PARTE DERECHA
             if(this.right && this.shift){
@@ -74,10 +81,36 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
                 //Salto en el mismo lugar
                 movimientoConSalto(0, 0, 50);
             }
+
         }
         
     }
 
+    private boolean interseccion(){
+        //Variable donde tendremos las areas de los bloques
+        Area [] areaWalls = new Area[walls.length];
+
+        //variable de colision
+        boolean colisiona = false;
+                
+        //OBtenemos el area de las paredes
+        for (int i = 0; i < areaWalls.length; i++) {
+            areaWalls[i] = new Area(walls[i].getBounds());
+        }
+
+        //obtenemos el area del personaje
+        Area areaMario = new Area(this.getBounds());
+
+        //verificamos si colisiona con algun bloque
+        for (int i = 0; i < areaWalls.length; i++) {
+            if (areaWalls[i].intersects(areaMario.getBounds2D())) {
+                colisiona = true;
+            }
+        }
+
+        //regresamos la comparacion de la inteerseccion del area de la pared al del mario, o sea si colisiona el mario con la pared
+        return colisiona; //areaWall1.intersects(areaMario.getBounds2D());
+    }
     
     //METODOS DEL KEYLISTENER
     public void keyPressed(KeyEvent e) {
@@ -142,6 +175,11 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
             if (this.posX >= 150 && (this.fondo.getX() * -1 ) < (this.fondo.getIcon().getIconWidth() - 300) ) {
                 //verificamos que este despues de la mitad de la ventana y este en un lugar menor a la dimencion del icon menos la dimension de la ventana
                 this.fondo.mover_fondo(desplezamiento);
+
+                //desplazamos los bloques
+                for (int i = 0; i < walls.length; i++) {
+                    this.walls[i].mover_pared(desplezamiento);
+                }
             }else{
                 this.posX += desplezamiento;
             }
@@ -149,6 +187,11 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
             if (this.posX <= 150 && this.fondo.getX() < 0) {
                 //verificamos si la posicion del personaje es menos de la mitad de la pantalla y la posicion del fondo es menor de 0 para realizar el movimiento
                 this.fondo.mover_fondo(desplezamiento * -1);
+                
+                //desplazamos los bloques
+                for (int i = 0; i < walls.length; i++) {
+                    this.walls[i].mover_pared(desplezamiento * -1);
+                }
             }else{
                 this.posX -= desplezamiento;
             }
@@ -192,6 +235,11 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
                 if (this.posX >= 150 && (this.fondo.getX() * -1 ) < (this.fondo.getIcon().getIconWidth() - 300) ) {
                     //verificamos que este despues de la mitad de la ventana y este en un lugar menor a la dimencion del icon menos la dimension de la ventana
                     this.fondo.mover_fondo(desplazamiento);
+
+                    //desplazamos los bloques
+                    for (int i = 0; i < walls.length; i++) {
+                        this.walls[i].mover_pared(desplazamiento);
+                    }
                 }else{
                     this.posX += desplazamiento;
                 }
@@ -199,6 +247,11 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
                 if (this.posX <= 150 && this.fondo.getX() < 0) {
                     //verificamos si la posicion del personaje es menos de la mitad de la pantalla y la posicion del fondo es menor de 0 para realizar el movimiento
                     this.fondo.mover_fondo(desplazamiento * -1);
+
+                    //desplazamos los bloques
+                    for (int i = 0; i < walls.length; i++) {
+                        this.walls[i].mover_pared(desplazamiento * -1);
+                    }
                 }else{
                     this.posX -= desplazamiento;
                 }
@@ -229,6 +282,11 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
                 if (this.posX >= 150 && (this.fondo.getX() * -1 ) < (this.fondo.getIcon().getIconWidth() - 300) ) {
                     //verificamos que este despues de la mitad de la ventana y este en un lugar menor a la dimencion del icon menos la dimension de la ventana
                     this.fondo.mover_fondo(desplazamiento);
+
+                    //desplazamos los bloques
+                    for (int i = 0; i < walls.length; i++) {
+                        this.walls[i].mover_pared(desplazamiento);
+                    }
                 }else{
                     this.posX += desplazamiento;
                 }
@@ -236,6 +294,11 @@ public class Imagen2 extends JLabel implements Runnable, KeyListener{
                 if (this.posX <= 150 && this.fondo.getX() < 0) {
                     //verificamos si la posicion del personaje es menos de la mitad de la pantalla y la posicion del fondo es menor de 0 para realizar el movimiento
                     this.fondo.mover_fondo(desplazamiento * -1);
+
+                    //desplazamos los bloques
+                    for (int i = 0; i < walls.length; i++) {
+                        this.walls[i].mover_pared(desplazamiento * -1);
+                    }
                 }else{
                     this.posX -= desplazamiento;
                 }

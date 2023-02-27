@@ -1,7 +1,10 @@
 package P1.Ventana3;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 import java.awt.event.*;
 
 public class Ventana extends JFrame{
@@ -16,7 +19,18 @@ public class Ventana extends JFrame{
         JButton btnStart = new JButton("Start");
         Imagen img1 = new Imagen("images/link1.png","images/link2.png", 200);
         Imagen2 img2 = new Imagen2("images/mario1.png", "images/mario2.png", fondo);
+        
+        //Paredes
+        Wall [] bloques = new Wall[2];
 
+        //creamos los bloques en pantalla y damos la posicion
+        for (int i = 0; i < bloques.length; i++) {
+            bloques[i] = new Wall("images/wall.png");
+            bloques[i].setBounds( (int) (Math.random() * (800 - 100)) + 100, 110, 16, 16);
+        }
+
+        //pasamos los bloques al personaje
+        img2.walls = bloques;
 
         //posiciones de los elementos
         fondo.setBounds(0,0,800,300);
@@ -45,6 +59,9 @@ public class Ventana extends JFrame{
         img2.addKeyListener(img2);
 
         //Agregamos los elementos a la ventana
+        for (int i = 0; i < bloques.length; i++) {
+            add(bloques[i]);
+        }
         add(btnStart);
         add(img1);
         add(img2);
