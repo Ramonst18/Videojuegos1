@@ -1,25 +1,28 @@
 package P1.Ventana3;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class Wall extends JLabel {
+public class Base extends JLabel{
+    
     // atributos
     private String url;
     private ImageIcon icon;
 
-    // Constructor
-    public Wall(String url) {
+    public Base(String url) {
         this.url = url;
+
+        // Icon
         icon = new ImageIcon(this.getClass().getResource(url));
+
         setIcon(icon);
     }
 
     // Movimiento de la imagen
-    public void mover_pared(int x) {
-
-        // Movemos la pared
-        setBounds(this.getX() - x, 110, 16, 16);
+    public void mover_base(int x) {
+        // Movemos la base
+        setBounds(this.getX() - x, this.getY(), 171, 27);
         // System.out.println(this.getX());
     }
 
