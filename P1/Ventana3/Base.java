@@ -22,7 +22,7 @@ public class Base extends JLabel{
     // Movimiento de la imagen
     public void mover_base(int x) {
         // Movemos la base
-        setBounds(this.getX() - x, this.getY(), 171, 27);
+        setBounds(this.getX() - x, this.getY(), 161, 27);
         // System.out.println(this.getX());
     }
 

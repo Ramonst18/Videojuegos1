@@ -1,6 +1,7 @@
 package P1.Ventana3;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.*;
 
@@ -11,14 +12,21 @@ public class Ventana3 extends JFrame{
 
     private void initValues(){
         //Elementos de la ventana
-        Base base = new Base("images/Base.png");
         Fondo3 fondo = new Fondo3("images/Fondo3.png");
         JButton btnStart = new JButton("Start");
         Imagen3 personaje = new Imagen3("images/mario1.png", "images/mario2.png", fondo);
-
+        Base [] bases = new Base[2];
+        int xBase = 0;
         //posiciones de los elementos
         personaje.setBounds(10, 10, 42, 42);
-        base.setBounds(0, 55, 171, 27);
+        //Inicializamos las bases y las posicionamos
+        for (int i = 0; i < bases.length; i++) {
+            bases[i] = new Base("images/Base.png");
+            bases[i].setBounds(xBase, 55, 161, 27);
+
+            //incrementamos las bases
+            xBase += 250;
+        }
         fondo.setBounds(0,0,510,72);
         btnStart.setBounds(10, 80, 75, 25);
         
@@ -27,7 +35,7 @@ public class Ventana3 extends JFrame{
         personaje.setFocusable(true);
 
         //Pasamos la base
-        personaje.base = base;
+        personaje.bases = bases;
 
         //Action Listener
         ActionListener listener = new ActionListener(){
@@ -44,7 +52,9 @@ public class Ventana3 extends JFrame{
 
         //Agregamos los elementos a la ventana
         add(personaje);
-        add(base);
+        for (int i = 0; i < bases.length; i++) {
+            add(bases[i]);
+        }
         add(btnStart);
         add(fondo);
 

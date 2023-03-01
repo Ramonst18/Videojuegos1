@@ -12,10 +12,10 @@ public class Imagen3 extends JLabel implements Runnable, KeyListener {
     private ImageIcon icon;
     private int posX = 10, posY = 0, posYSaltoAlto = 0;
     private boolean runStatus = false, right = false, shift = false, up = false, left = false, changeImg = false,
-            colisionSuperficie = false;
+            colisionSuperficie = false, gameOver = false;
     private Fondo3 fondo;
     private File file;
-    Base base;
+    Base [] bases;
 
     // CONSTRUCTOR
     public Imagen3(String url1, String url2, Fondo3 fondo) {
@@ -35,7 +35,7 @@ public class Imagen3 extends JLabel implements Runnable, KeyListener {
         runStatus = true;
 
         // Escucha permanente
-        while (true) {
+        while (true && !gameOver) {
 
             // obtenemos la posicion
             this.posX = this.getX();
@@ -45,7 +45,7 @@ public class Imagen3 extends JLabel implements Runnable, KeyListener {
             file.exists(); // NECESARIO PPARA QUE SE EJECUTE EL JUEGO
 
             // Gravedad del personaje
-            gravedad();
+            gravedad(2, 100);
 
             // MOVIMIENTO DEL PERSONAJE PARTE DERECHA
             if (this.right && this.shift) {
@@ -83,16 +83,24 @@ public class Imagen3 extends JLabel implements Runnable, KeyListener {
 
     }
 
-    private void gravedad() {
+    private void gravedad(int presion, int time) {
         interseccion();
 
         // Verificamos si no tiene un objeto en la parte de abajo
         if (!this.colisionSuperficie) {
-            posY += 2;
+            posY += presion;
             setBounds(getX(), posY, 42, 42);
 
+            //Comprobamos si llega a superar tal posicion de caida para mandar la perdida
+            if (posY >= 120) {
+                gameOver = true;
+
+                //Cambiar un label en la ventana que indique que se murio el personaje
+                JOptionPane.showMessageDialog(null, "Te moriste");
+            }
+
             try {
-                Thread.sleep(100);
+                Thread.sleep(time);
             } catch (Exception e) {
                 // TODO: handle exception
             }
@@ -104,13 +112,32 @@ public class Imagen3 extends JLabel implements Runnable, KeyListener {
          * con alguna superficie
          */
 
-        // area de la base
-        Area aBase = new Area(base.getBounds());
+        //Sacamos las areas de las bases
+        Area [] aBases = new Area[bases.length];
+
+        //obtenemos las dimensiones de todas las bases
+        for (int i = 0; i < aBases.length; i++) {
+            aBases[i] = new Area(bases[i].getBounds());
+        }
 
         // area del personaje
         Area aMario = new Area(this.getBounds());
 
-        this.colisionSuperficie = aBase.intersects(aMario.getBounds2D());
+        //verificamos si alguna base colisiona con el personaje
+        for (int i = 0; i < aBases.length; i++) {
+            if (aBases[i].intersects(aMario.getBounds2D())) {
+
+                //verificamos si colisiona con la parte de arriba
+                if (aBases[i].getBounds2D().getMinY() + 1 == aMario.getBounds2D().getMaxY()) {
+                    System.out.println("Arriba");
+                }
+                
+                this.colisionSuperficie = true;
+                break;
+            } else{
+                this.colisionSuperficie = false;
+            }
+        }
     }
 
     // METODOS DEL KEYLISTENER
@@ -177,8 +204,10 @@ public class Imagen3 extends JLabel implements Runnable, KeyListener {
                 // verificamos que este despues de la mitad de la ventana y este en un lugar
                 // menor a la dimencion del icon menos la dimension de la ventana
                 this.fondo.mover_fondo(desplezamiento);
-
-                this.base.mover_base(desplezamiento);
+                for (int i = 0; i < bases.length; i++) {
+                            
+                    this.bases[i].mover_base(desplezamiento);
+                }
             } else {
                 this.posX += desplezamiento;
             }
@@ -187,8 +216,11 @@ public class Imagen3 extends JLabel implements Runnable, KeyListener {
                 // verificamos si la posicion del personaje es menos de la mitad de la pantalla
                 // y la posicion del fondo es menor de 0 para realizar el movimiento
                 this.fondo.mover_fondo(desplezamiento * -1);
-
-                this.base.mover_base(desplezamiento);
+                
+                for (int i = 0; i < bases.length; i++) {
+                            
+                    this.bases[i].mover_base(desplezamiento * -1);
+                }
             } else {
                 this.posX -= desplezamiento;
             }
@@ -225,7 +257,10 @@ public class Imagen3 extends JLabel implements Runnable, KeyListener {
                         // menor a la dimencion del icon menos la dimension de la ventana
                         this.fondo.mover_fondo(desplazamiento);
 
-                        this.base.mover_base(desplazamiento);
+                        for (int i = 0; i < bases.length; i++) {
+                            
+                            this.bases[i].mover_base(desplazamiento);
+                        }
                     } else {
                         this.posX += desplazamiento;
                     }
@@ -235,7 +270,10 @@ public class Imagen3 extends JLabel implements Runnable, KeyListener {
                         // y la posicion del fondo es menor de 0 para realizar el movimiento
                         this.fondo.mover_fondo(desplazamiento * -1);
 
-                        this.base.mover_base(desplazamiento);
+                        for (int i = 0; i < bases.length; i++) {
+                            
+                            this.bases[i].mover_base(desplazamiento * -1);
+                        }
                     } else {
                         this.posX -= desplazamiento;
                     }
