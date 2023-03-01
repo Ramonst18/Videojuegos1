@@ -128,9 +128,9 @@ public class Imagen3 extends JLabel implements Runnable, KeyListener {
             if (aBases[i].intersects(aMario.getBounds2D())) {
 
                 //verificamos si colisiona con la parte de arriba
-                if (aBases[i].getBounds2D().getMinY() + 1 == aMario.getBounds2D().getMaxY()) {
+                /*if (aBases[i].getBounds2D().getMinY() + 1 == aMario.getBounds2D().getMaxY()) {
                     System.out.println("Arriba");
-                }
+                }*/
                 
                 this.colisionSuperficie = true;
                 break;
