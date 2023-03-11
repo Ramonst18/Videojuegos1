@@ -1,7 +1,6 @@
 package P1.Ventana3;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class Base extends JLabel{
@@ -14,7 +13,7 @@ public class Base extends JLabel{
         this.url = url;
 
         // Icon
-        icon = new ImageIcon(this.getClass().getResource(url));
+        icon = new ImageIcon(this.getClass().getResource(this.url));
 
         setIcon(icon);
     }
