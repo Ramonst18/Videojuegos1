@@ -205,7 +205,7 @@ public class Imagen3 extends JLabel implements Runnable, KeyListener {
                 // menor a la dimencion del icon menos la dimension de la ventana
                 this.fondo.mover_fondo(desplezamiento);
                 for (int i = 0; i < bases.length; i++) {
-                            
+                    
                     this.bases[i].mover_base(desplezamiento);
                 }
             } else {
