@@ -9,6 +9,7 @@ public class Sonido {
     private AudioInputStream audioStream;
     private Clip clip;
     private File file;
+    private Long microSegundos;
 
     public Sonido(String ruta){
         this.ruta = ruta;
@@ -32,4 +33,24 @@ public class Sonido {
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (Exception e) { } // TODO: handle exception
     }
+
+    public void pause(){
+        microSegundos = clip.getMicrosecondPosition();
+        clip.stop();
+    }//end pause
+
+    public void resume(){
+        clip.close();
+        try {
+            audioStream = AudioSystem.getAudioInputStream(this.getClass().getResource(ruta));
+            play();
+            clip.setMicrosecondPosition(microSegundos);
+        } catch (Exception e) { }
+    }//end resume
+
+    public void stopmusic(){
+        microSegundos = 0L;
+        clip.stop();
+        clip.close();
+    }//end stop
 }

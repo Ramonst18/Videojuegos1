@@ -33,10 +33,22 @@ public class Ventana5 extends JFrame{
 					sonido = new Sonido("music/mario1v2.wav");
 					sonido.play();
 				}
+                if (ae.getSource() == btnPause) {
+					sonido.pause();
+				}//end btn pause
+				if (ae.getSource() == btnResume) {
+					sonido.resume();
+				}//end btn resume
+				if (ae.getSource() == btnStop) {
+					sonido.stopmusic();
+				}//end btn stop
             }
         };
 
         btnStart.addActionListener(listener);
+        btnPause.addActionListener(listener);
+        btnResume.addActionListener(listener);
+        btnStop.addActionListener(listener);
 
         //agregamos los elementos a la ventana
         add(btnStart);
