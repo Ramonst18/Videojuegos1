@@ -12,17 +12,21 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
     private ImageIcon icon;
     private int posX = 10, posY = 0, posYSaltoAlto = 0;
     private boolean runStatus = false, right = false, shift = false, up = false, left = false, changeImg = false,
-            colisionSuperficie = false, gameOver = false, pausar;
-    private Fondo3 fondo;
+            colisionSuperficie = false, gameOver = false, pausar, stop = false;
+    private Fondo fondo;
     private File file;
+    private Sonido sonidoSalto;
     Base [] bases;
 
     // CONSTRUCTOR
-    public Personaje(String url1, String url2, Fondo3 fondo) {
+    public Personaje(String url1, String url2, Fondo fondo) {
         this.url1 = url1;
         this.url2 = url2;
         this.fondo = fondo;
         file = new File(url1);
+
+        //Sonidos del personaje
+        sonidoSalto = new Sonido("music/saltito.wav");
 
         // Icon
         icon = new ImageIcon(this.getClass().getResource(url1));
@@ -88,6 +92,10 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
                         wait();
                     }
 
+                    if (stop) {
+                        // rompemos el ciclo del for
+                        break;
+                    }
                 }
             } catch (Exception e) {
                 // TODO: handle exception
@@ -112,6 +120,7 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
 
                 //Cambiar un label en la ventana que indique que se murio el personaje
                 JOptionPane.showMessageDialog(null, "Te moriste");
+
             }
 
             try {
@@ -294,6 +303,8 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
                     }
                 }
 
+                sonidoSalto.playOne();
+
                 // incrementamos la posicion
                 setBounds(posX, posY, 42, 42);
 
@@ -334,5 +345,15 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
     synchronized void reanudarHilo() {
         pausar = false;
         notify(); // Despertamos al thread
+    }
+
+    synchronized void stopHilo() {
+        stop = true;
+        pausar = false;
+        notify();
+    }
+
+    public void resetPosition(){
+        this.setBounds(10, 15, 42, 42);
     }
 }

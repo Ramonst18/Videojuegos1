@@ -34,6 +34,14 @@ public class Sonido {
         } catch (Exception e) { } // TODO: handle exception
     }
 
+    public void playOne() {
+        try {
+            clip.open(audioStream);
+            clip.loop(1);
+        } catch (Exception e) {
+        } // TODO: handle exception
+    }
+
     public void pause(){
         microSegundos = clip.getMicrosecondPosition();
         clip.stop();
