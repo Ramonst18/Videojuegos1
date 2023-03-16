@@ -16,7 +16,7 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
     private Fondo fondo;
     private File file;
     private Sonido sonidoSalto;
-    Base [] bases;
+    Base[] bases;
 
     // CONSTRUCTOR
     public Personaje(String url1, String url2, Fondo fondo) {
@@ -24,9 +24,6 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
         this.url2 = url2;
         this.fondo = fondo;
         file = new File(url1);
-
-        //Sonidos del personaje
-        sonidoSalto = new Sonido("music/saltito.wav");
 
         // Icon
         icon = new ImageIcon(this.getClass().getResource(url1));
@@ -37,7 +34,8 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
     public void run() {
         // habilitamos el movimiento del personaje
         runStatus = true;
-        //pausar = false;
+        stop = false;
+        // pausar = false;
         // Escucha permanente
         while (true && !gameOver) {
             // obtenemos la posicion
@@ -82,8 +80,7 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
                 movimientoConSalto(0, 100, 50);
             }
 
-            
-            //Pausa y resume del monito
+            // Pausa y resume del monito
             try {
                 synchronized (this) {
                     // Porcion de codigo sincronizada
@@ -114,11 +111,11 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
             posY += presion;
             setBounds(getX(), posY, 42, 42);
 
-            //Comprobamos si llega a superar tal posicion de caida para mandar la perdida
+            // Comprobamos si llega a superar tal posicion de caida para mandar la perdida
             if (posY >= 120) {
                 gameOver = true;
 
-                //Cambiar un label en la ventana que indique que se murio el personaje
+                // Cambiar un label en la ventana que indique que se murio el personaje
                 JOptionPane.showMessageDialog(null, "Te moriste");
 
             }
@@ -132,14 +129,15 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
     }
 
     private void interseccion() {
-        /*Metodo que nos informara si esta colisionando el personaje
+        /*
+         * Metodo que nos informara si esta colisionando el personaje
          * con alguna superficie
          */
 
-        //Sacamos las areas de las bases
-        Area [] aBases = new Area[bases.length];
+        // Sacamos las areas de las bases
+        Area[] aBases = new Area[bases.length];
 
-        //obtenemos las dimensiones de todas las bases
+        // obtenemos las dimensiones de todas las bases
         for (int i = 0; i < aBases.length; i++) {
             aBases[i] = new Area(bases[i].getBounds());
         }
@@ -147,18 +145,27 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
         // area del personaje
         Area aMario = new Area(this.getBounds());
 
-        //verificamos si alguna base colisiona con el personaje
+        // verificamos si alguna base colisiona con el personaje
         for (int i = 0; i < aBases.length; i++) {
             if (aBases[i].intersects(aMario.getBounds2D())) {
 
-                //verificamos si colisiona con la parte de arriba
-                /*if (aBases[i].getBounds2D().getMinY() + 1 == aMario.getBounds2D().getMaxY()) {
-                    System.out.println("Arriba");
-                }*/
-                
+                // verificamos si colisiona con la parte de arriba
+                /*
+                 * if (aBases[i].getBounds2D().getMinY() + 1 == aMario.getBounds2D().getMaxY())
+                 * {
+                 * System.out.println("Arriba");
+                 * }
+                 */
+
                 this.colisionSuperficie = true;
+
+                //comprobamos que el objeto del sonidoSalto se haya creado para poder pararlo una vez entre en contacto con la superficie de un objeto
+                if (sonidoSalto != null) {
+                    sonidoSalto.stopmusic();
+                }
+
                 break;
-            } else{
+            } else {
                 this.colisionSuperficie = false;
             }
         }
@@ -229,7 +236,7 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
                 // menor a la dimencion del icon menos la dimension de la ventana
                 this.fondo.mover_fondo(desplezamiento);
                 for (int i = 0; i < bases.length; i++) {
-                    
+
                     this.bases[i].mover_base(desplezamiento);
                 }
             } else {
@@ -240,9 +247,9 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
                 // verificamos si la posicion del personaje es menos de la mitad de la pantalla
                 // y la posicion del fondo es menor de 0 para realizar el movimiento
                 this.fondo.mover_fondo(desplezamiento * -1);
-                
+
                 for (int i = 0; i < bases.length; i++) {
-                            
+
                     this.bases[i].mover_base(desplezamiento * -1);
                 }
             } else {
@@ -272,6 +279,10 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
         // preguntamos si esta colisionando con alguna superficie
         if (this.colisionSuperficie) {
 
+            // Creamos el sonido de salto del personaje y lo reproducimos
+            sonidoSalto = new Sonido("music/saltito.wav");
+            sonidoSalto.playOne();
+
             // Subida
             for (this.posY = this.getY(); this.posY >= posYSaltoAlto; this.posY -= 5) {
                 // Desplazamos el personaje en X
@@ -282,7 +293,7 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
                         this.fondo.mover_fondo(desplazamiento);
 
                         for (int i = 0; i < bases.length; i++) {
-                            
+
                             this.bases[i].mover_base(desplazamiento);
                         }
                     } else {
@@ -295,7 +306,7 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
                         this.fondo.mover_fondo(desplazamiento * -1);
 
                         for (int i = 0; i < bases.length; i++) {
-                            
+
                             this.bases[i].mover_base(desplazamiento * -1);
                         }
                     } else {
@@ -303,12 +314,11 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
                     }
                 }
 
-                sonidoSalto.playOne();
-
                 // incrementamos la posicion
                 setBounds(posX, posY, 42, 42);
 
-                //NO SE REALIZARAN CAMBIOS ENTRE LOS SPRITE CON LOS SALTOS, YA SE HACEN CON EL MOVIMIENTO NORMAL
+                // NO SE REALIZARAN CAMBIOS ENTRE LOS SPRITE CON LOS SALTOS, YA SE HACEN CON EL
+                // MOVIMIENTO NORMAL
 
                 // Velocidad de refresco de pantalla
                 try {
@@ -318,6 +328,7 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
                     // TODO: handle exception
                 }
             }
+
         }
 
     }
@@ -353,7 +364,7 @@ public class Personaje extends JLabel implements Runnable, KeyListener {
         notify();
     }
 
-    public void resetPosition(){
+    public void resetPosition() {
         this.setBounds(10, 15, 42, 42);
     }
 }

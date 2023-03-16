@@ -37,7 +37,7 @@ public class Sonido {
     public void playOne() {
         try {
             clip.open(audioStream);
-            clip.loop(1);
+            clip.loop(0);
         } catch (Exception e) {
         } // TODO: handle exception
     }
