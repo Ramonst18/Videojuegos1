@@ -9,8 +9,8 @@ public class Pala extends JLabel implements Runnable, KeyListener {
     // atributos de la clase
     private File file;
     private String url;
-    private boolean runStatus = false, arriba = false, abajo = false,
-            impulso = false, golpe = false;
+    private boolean runStatus = false, arriba = false, abajo = false, pausar = false, stop = false,
+            impulso = false, golpe = false; 
     private ImageIcon icon;
     private int score = 0;
 
@@ -25,19 +25,42 @@ public class Pala extends JLabel implements Runnable, KeyListener {
     // Thread
     public void run() {
         runStatus = true;
+        stop = false;
 
         // ejecucion continua del hilo
         while (true) {
             
+            //PARA QUE SIGA EJECUTANDO
+            file.exists();
+
             //MOVIMIENTO
             //arriba
             if (arriba) {
-                movimiento(5);
+                movimiento(-5);
             }
 
             //abajo
             if (abajo) {
-                movimiento(-5);
+                movimiento(5);
+            }
+
+            // PAUSA Y RESUMEN DE LA PALA
+            try {
+                synchronized (this) {
+                    // Porcion de codigo sincronizada
+                    while (pausar) {
+                        // si pausar es verdadero, el hilo estara en espera
+                        wait();
+                    }
+
+                    if (stop) {
+                        // rompemos el ciclo del for
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                // TODO: handle exception
+                System.out.println(e);
             }
         }
     }// end run
@@ -87,4 +110,19 @@ public class Pala extends JLabel implements Runnable, KeyListener {
         }
     }
 
+    // METODOS SINCRONIZADOS
+    synchronized void pausarHilo() {
+        pausar = true;
+    }
+
+    synchronized void reanudarHilo() {
+        pausar = false;
+        notify(); // Despertamos al thread
+    }
+
+    synchronized void stopHilo() {
+        stop = true;
+        pausar = false;
+        notify();
+    }
 }
