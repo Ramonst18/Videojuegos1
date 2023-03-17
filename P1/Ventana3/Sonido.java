@@ -1,20 +1,15 @@
 package P1.Ventana3;
 
-import java.io.File;
-
 import javax.sound.sampled.*;
 
 public class Sonido {
     private String ruta;
     private AudioInputStream audioStream;
     private Clip clip;
-    private File file;
     private Long microSegundos;
 
     public Sonido(String ruta){
         this.ruta = ruta;
-
-        file = new File(ruta);
 
         //System.out.println(this.getClass().getResource(ruta));
 

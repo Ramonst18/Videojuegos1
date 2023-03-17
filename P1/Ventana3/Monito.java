@@ -3,7 +3,6 @@ package P1.Ventana3;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.File;
-import java.awt.geom.*;
 
 public class Monito extends JLabel implements Runnable, KeyListener {
     private String url1, url2;

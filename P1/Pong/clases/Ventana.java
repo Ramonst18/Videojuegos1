@@ -13,9 +13,12 @@ public class Ventana extends JFrame{
         Pala jugador1 = new Pala("../images/pala.png");
         Fondo fondo = new Fondo("../images/fondo.png");
 
+
         //Posicionamos los elementos
         jugador1.setBounds(10, 100, 12, 42);
         fondo.setBounds(0, 0, 300, 300);
+
+        
 
         //agregamos los elementos a la ventana
         add(jugador1);

@@ -1,7 +1,6 @@
 package P1.Ventana3;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.*;
 

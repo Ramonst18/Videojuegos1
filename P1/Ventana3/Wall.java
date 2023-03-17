@@ -11,7 +11,7 @@ public class Wall extends JLabel {
     // Constructor
     public Wall(String url) {
         this.url = url;
-        icon = new ImageIcon(this.getClass().getResource(url));
+        icon = new ImageIcon(this.getClass().getResource(this.url));
         setIcon(icon);
     }
 

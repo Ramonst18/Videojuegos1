@@ -1,9 +1,7 @@
 package P1.Ventana3;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 import java.awt.event.*;
 

@@ -13,7 +13,7 @@ public class Fondo extends JLabel {
         this.url = url;
 
         //Icon
-        icon = new ImageIcon(this.getClass().getResource(url));
+        icon = new ImageIcon(this.getClass().getResource(this.url));
         
         setIcon(icon);
     }
