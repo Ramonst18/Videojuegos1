@@ -39,4 +39,10 @@ public class BtnPauseResume extends JButton{
         return pause;
     }
 
+    public void setPause(boolean pause){
+        this.pause = pause;
+    }
+
+    
+
 }
