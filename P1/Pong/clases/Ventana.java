@@ -49,6 +49,8 @@ public class Ventana extends JFrame {
         
         //SET
         pelota.setPalas(palas);
+        jugador1.setPelota(pelota);
+        jugador2.setPelota(pelota);
 
         // KEYLISTENNER
         ActionListener listener = new ActionListener() {

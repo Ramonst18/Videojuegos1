@@ -15,6 +15,7 @@ public class Pala extends JLabel implements Runnable, KeyListener {
     private ImageIcon icon;
     private DashIndicator dashIndicator;
     private int score = 0, posY;
+    private Area aPala, aPelota;
     private Scores scores;
 
     // Constructor
@@ -33,6 +34,8 @@ public class Pala extends JLabel implements Runnable, KeyListener {
         stop = false;
 
         this.posY = this.getY();
+        aPala = new Area(this.getBounds());
+        aPelota = new Area(pelota.getBounds());
 
         // ejecucion continua del hilo
         while (true) {
@@ -41,23 +44,37 @@ public class Pala extends JLabel implements Runnable, KeyListener {
             file.exists();
 
             // MOVIMIENTO
-            // arriba
-            if (arriba && impulso && this.dashIndicator.getCarga() == 4) {
-                // impulso hacia arriba
-                movimientoRapido(-15);
-                this.dashIndicator.reanudarHilo(0);
-            } else if (arriba) {
-                movimiento(-5);
-            }
+            if (player.equals("P1")) {
+                // arriba
+                if (arriba && impulso && this.dashIndicator.getCarga() == 4) {
+                    // impulso hacia arriba
+                    movimientoRapido(-15);
+                    this.dashIndicator.reanudarHilo(0);
+                } else if (arriba) {
+                    movimiento(-5);
+                }
 
-            // abajo
-            if (abajo && impulso && this.dashIndicator.getCarga() == 4) {
-                // impulso hacia abajo
-                movimientoRapido(15);
-                this.dashIndicator.reanudarHilo(0);
-            } else if (abajo) {
-                movimiento(5);
+                // abajo
+                if (abajo && impulso && this.dashIndicator.getCarga() == 4) {
+                    // impulso hacia abajo
+                    movimientoRapido(15);
+                    this.dashIndicator.reanudarHilo(0);
+                } else if (abajo) {
+                    movimiento(5);
+                }
+
+                //Golpe
+                
+
+            }else{
+                //abajo
+                if(pelota.getY() > this.getY()){
+                    movimiento(5);
+                }else if(pelota.getY() < this.getY()){//arriba
+                    movimiento(-5);
+                }
             }
+            
 
             // PAUSA Y RESUMEN DE LA PALA
             try {
@@ -217,6 +234,8 @@ public class Pala extends JLabel implements Runnable, KeyListener {
         this.dashIndicator = dashIndicator;
     }
 
-
+    public void setPelota(Pelota pelota){
+        this.pelota = pelota;
+    }
 
 }

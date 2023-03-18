@@ -31,18 +31,19 @@ public class Pelota extends JLabel implements Runnable {
             // necesario para que se siga ejecutando
             file.exists();
 
-            //verificamos la posicion de la pelota para darle rebote
+            // verificamos la posicion de la pelota para darle rebote
             if (posY < 2 || posY > 290) {
                 YDirection *= -1;
             }
 
-            //verificamos si pasaron a las palas para dar la puntuacion y comenzar el juego de nuevo
-            if (posX < 5 ) {
+            // verificamos si pasaron a las palas para dar la puntuacion y comenzar el juego
+            // de nuevo
+            if (posX < 5) {
                 palas[1].setScore(1);
                 resetPosition();
                 randomDirection();
                 this.tiempo = 80;
-            } else if (posX > 280){
+            } else if (posX > 280) {
                 palas[0].setScore(1);
                 resetPosition();
                 randomDirection();
@@ -51,14 +52,14 @@ public class Pelota extends JLabel implements Runnable {
 
             interseccion();
 
-            //Movimiento de la pelota
+            // Movimiento de la pelota
             if (this.XDirection > 0 && this.YDirection > 0) {
                 moving(2, 2);
-            }else if (this.XDirection > 0 && this.YDirection < 0) {
+            } else if (this.XDirection > 0 && this.YDirection < 0) {
                 moving(2, -2);
-            }else if (this.XDirection < 0 && this.YDirection < 0) {
+            } else if (this.XDirection < 0 && this.YDirection < 0) {
                 moving(-2, -2);
-            }else{
+            } else {
                 moving(-2, 2);
             }
 
@@ -120,11 +121,17 @@ public class Pelota extends JLabel implements Runnable {
             if (aPalas[i].intersects(aPelota.getBounds2D())) {
                 this.XDirection *= -1;
                 
-                if (this.tiempo != 20) {
+                //limitamos que el tiempo no pase de tal valor
+                if (this.tiempo != 10) {
                     this.tiempo -= 5;
                 }
+
             }
         }
+    }
+
+    public void setImpulso(boolean impulso) {
+        this.impulso = impulso;
     }
 
     public void resetPosition() {
@@ -134,19 +141,19 @@ public class Pelota extends JLabel implements Runnable {
     }
 
     private void randomDirection() {
-        //Direccion random para X
+        // Direccion random para X
         if (Math.random() < 0.5) {
             this.XDirection *= -1;
         }
 
-        //Direccion random para Y
+        // Direccion random para Y
         if (Math.random() < 0.5) {
             this.YDirection *= -1;
         }
     }
 
-    //GETTERS AND SETTERS
-    public void setPalas(Pala[] palas){
+    // GETTERS AND SETTERS
+    public void setPalas(Pala[] palas) {
         this.palas = palas;
     }
 
