@@ -15,16 +15,16 @@ public class Ventana extends JFrame {
 
     private void initValues() {
         // ELEMENTOS DE LA VENTANA
-        Pala jugador1 = new Pala("../images/palaA.png");
+        Pala jugador1 = new Pala("../images/palaA.png", "P1");
         jugador1.setDashIndicator(
                 new DashIndicator("../images/iconDash/iconDashAP1.png", "../images/iconDash/iconDashAP2.png",
                         "../images/iconDash/iconDashAP3.png", "../images/iconDash/iconDashAP4.png"));
-        Pala jugador2 = new Pala("../images/palaB.png");
+        Pala jugador2 = new Pala("../images/palaB.png", "P2");
         jugador2.setDashIndicator(
                 new DashIndicator("../images/iconDash/iconDashBP1.png", "../images/iconDash/iconDashBP2.png",
                         "../images/iconDash/iconDashBP3.png", "../images/iconDash/iconDashBP4.png"));
-        Pelota pelota = new Pelota("../images/pelota.png");
         Fondo fondo = new Fondo("../images/fondo.png");
+        Pelota pelota = new Pelota("../images/pelota.png");
         JButton btnStart = new JButton(new ImageIcon(this.getClass().getResource("../images/ButtonStart.png")));
         JButton btnStop = new JButton(new ImageIcon(this.getClass().getResource("../images/btnStop.png")));
         BtnPauseResume btnPauseResume = new BtnPauseResume();
@@ -42,17 +42,32 @@ public class Ventana extends JFrame {
         jugador1.getDashIndicator().setBounds(5, 303, 20, 20);
         jugador2.getDashIndicator().setBounds(260, 303, 20, 20);
 
+        //areglo de palas
+        Pala[] palas = new Pala[2];
+        palas[0] = jugador1;
+        palas[1] = jugador2;
+        
+        //SET
+        pelota.setPalas(palas);
+
         // KEYLISTENNER
         ActionListener listener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
                 // btnStart
                 if (e.getSource() == btnStart) {
-                    Thread t = new Thread(jugador1);
-                    Thread indicator = new Thread(jugador1.getDashIndicator());
+                    Thread P1 = new Thread(jugador1);
+                    Thread P1Indicator = new Thread(jugador1.getDashIndicator());
+                    Thread P2 = new Thread(jugador2);
+                    Thread P2Indicator = new Thread(jugador2.getDashIndicator());
+                    Thread Tpelota = new Thread(pelota);
 
-                    t.start();
-                    indicator.start();
+                    //Damos comienzo a los jugadores
+                    P1.start();
+                    P1Indicator.start();
+                    P2.start();
+                    P2Indicator.start();
+                    Tpelota.start();
 
                     btnStart.setEnabled(false);
 
@@ -68,6 +83,8 @@ public class Ventana extends JFrame {
                         musicaFondo.resume();
 
                         jugador1.reanudarHilo();
+                        jugador2.reanudarHilo();
+                        pelota.reanudarHilo();
                     } else {
                         // Pausaremos
                         btnPauseResume.changeState();
@@ -75,6 +92,8 @@ public class Ventana extends JFrame {
                         musicaFondo.pause();
 
                         jugador1.pausarHilo();
+                        jugador2.pausarHilo();
+                        pelota.pausarHilo();
                     }
                 }
                 if (e.getSource() == btnStop) {
@@ -85,9 +104,11 @@ public class Ventana extends JFrame {
 
                     jugador1.resetPala();
                     jugador2.resetPala();
+                    pelota.resetPosition();
 
                     jugador1.stopHilo();
-                    //jugador2.stopHilo();
+                    jugador2.stopHilo();
+                    pelota.stopHilo();
 
                     btnStart.setEnabled(true);
 
@@ -100,9 +121,11 @@ public class Ventana extends JFrame {
         btnPauseResume.addActionListener(listener);
         btnStop.addActionListener(listener);
         jugador1.addKeyListener(jugador1);
+        jugador2.addKeyListener(jugador2);
 
         // FOCUS
         jugador1.setFocusable(true);
+        jugador2.setFocusable(false);
         btnStart.setFocusable(false);
         btnPauseResume.setFocusable(false);
         btnStop.setFocusable(false);

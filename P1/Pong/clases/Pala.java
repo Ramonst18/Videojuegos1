@@ -8,7 +8,8 @@ import java.awt.geom.*;
 public class Pala extends JLabel implements Runnable, KeyListener {
     // atributos de la clase
     private File file;
-    private String url;
+    private Pelota pelota;
+    private String url, player;
     private boolean runStatus = false, arriba = false, abajo = false, pausar = false, stop = false,
             impulso = false, golpe = false;
     private ImageIcon icon;
@@ -17,8 +18,9 @@ public class Pala extends JLabel implements Runnable, KeyListener {
     private Scores scores;
 
     // Constructor
-    public Pala(String url) {
+    public Pala(String url, String player) {
         scores = new Scores();
+        this.player = player;
         this.url = url;
         this.file = new File(this.url);
         this.icon = new ImageIcon(this.getClass().getResource(this.url));
@@ -29,31 +31,31 @@ public class Pala extends JLabel implements Runnable, KeyListener {
     public void run() {
         runStatus = true;
         stop = false;
-        
+
         this.posY = this.getY();
 
         // ejecucion continua del hilo
         while (true) {
-            
-            //PARA QUE SIGA EJECUTANDO
+
+            // PARA QUE SIGA EJECUTANDO
             file.exists();
 
-            //MOVIMIENTO
-            //arriba
+            // MOVIMIENTO
+            // arriba
             if (arriba && impulso && this.dashIndicator.getCarga() == 4) {
-                //impulso hacia arriba
+                // impulso hacia arriba
                 movimientoRapido(-15);
                 this.dashIndicator.reanudarHilo(0);
-            }else if (arriba) {
+            } else if (arriba) {
                 movimiento(-5);
             }
 
-            //abajo
+            // abajo
             if (abajo && impulso && this.dashIndicator.getCarga() == 4) {
-                //impulso hacia abajo
+                // impulso hacia abajo
                 movimientoRapido(15);
                 this.dashIndicator.reanudarHilo(0);
-            }else if (abajo) {
+            } else if (abajo) {
                 movimiento(5);
             }
 
@@ -67,7 +69,7 @@ public class Pala extends JLabel implements Runnable, KeyListener {
                     }
 
                     if (stop) {
-                        // rompemos el ciclo 
+                        // rompemos el ciclo
                         break;
                     }
                 }
@@ -80,10 +82,10 @@ public class Pala extends JLabel implements Runnable, KeyListener {
 
     // MOVIMIENTO DE LA PALA
     private void movimiento(int desplazamiento) {
-        /*Metodo que realiza el movimiento de la pala por la ventana */
+        /* Metodo que realiza el movimiento de la pala por la ventana */
 
-        //limitamos por donde pasará la pala
-        if (this.getY()+desplazamiento >= 0 && this.getY()+desplazamiento <= 260) {
+        // limitamos por donde pasará la pala
+        if (this.getY() + desplazamiento >= 0 && this.getY() + desplazamiento <= 260) {
             this.posY += desplazamiento;
         }
 
@@ -96,10 +98,10 @@ public class Pala extends JLabel implements Runnable, KeyListener {
         }
     }
 
-    private void movimientoRapido(int desplazamiento){
-        /*Metodo que realiza un movimiento rapido de la pala por la ventana */
-        //limitamos por donde pasará la pala
-        if (this.getY()+desplazamiento >= 0 && this.getY()+desplazamiento <= 260) {
+    private void movimientoRapido(int desplazamiento) {
+        /* Metodo que realiza un movimiento rapido de la pala por la ventana */
+        // limitamos por donde pasará la pala
+        if (this.getY() + desplazamiento >= 0 && this.getY() + desplazamiento <= 260) {
             this.posY += desplazamiento;
         }
 
@@ -120,38 +122,55 @@ public class Pala extends JLabel implements Runnable, KeyListener {
     public void keyPressed(KeyEvent e) {
         // si se esta ejecutando
         if (runStatus) {
-            // arriba
-            if (e.getKeyCode() == KeyEvent.VK_UP) {
-                this.arriba = true;
-            }
+            // verificamos si es el player 1 o el 2
+            if (player.equals("P1")) {
+                // arriba
+                if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    this.arriba = true;
+                }
 
-            // abajo
-            if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                this.abajo = true;
-            }
+                // abajo
+                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    this.abajo = true;
+                }
 
-            //impulso
-            if (e.getKeyCode() == KeyEvent.VK_Z) {
-                this.impulso = true;
-            }
+                // impulso
+                if (e.getKeyCode() == KeyEvent.VK_Z) {
+                    this.impulso = true;
+                }
+
+                // Golpe
+                if (e.getKeyCode() == KeyEvent.VK_X) {
+                    this.golpe = true;
+                }
+            } 
         }
     }
 
     public void keyReleased(KeyEvent e) {
-        // arriba
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-            this.arriba = false;
+        // verificamos si es el player 1 o el 2
+        if (player.equals("P1")) {
+            // arriba
+            if (e.getKeyCode() == KeyEvent.VK_UP) {
+                this.arriba = false;
+            }
+
+            // abajo
+            if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                this.abajo = false;
+            }
+
+            // impulso
+            if (e.getKeyCode() == KeyEvent.VK_Z) {
+                this.impulso = false;
+            }
+
+            // Golpe
+            if (e.getKeyCode() == KeyEvent.VK_X) {
+                this.golpe = false;
+            }
         }
 
-        // abajo
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            this.abajo = false;
-        }
-
-        //impulso
-        if (e.getKeyCode() == KeyEvent.VK_Z) {
-            this.impulso = false;
-        }
     }
 
     // METODOS SINCRONIZADOS
@@ -171,26 +190,33 @@ public class Pala extends JLabel implements Runnable, KeyListener {
         notify();
     }
 
-    public void resetPala(){
-        //Posicion
+    public void resetPala() {
+        // Posicion
         this.setBounds(this.getX(), 130, 12, 42);
 
-        //Puntuacion
+        // Puntuacion
         this.score = 0;
         this.scores.actualizarPuntaje(score);
     }
 
-    //GETTERS AND SETTERS
-    public Scores getScores(){
+    // GETTERS AND SETTERS
+    public Scores getScores() {
         return this.scores;
     }
 
-    public DashIndicator getDashIndicator(){
+    public void setScore(int score){
+        this.score += score;
+        this.scores.actualizarPuntaje(this.score);
+    }
+
+    public DashIndicator getDashIndicator() {
         return this.dashIndicator;
     }
 
-    public void setDashIndicator(DashIndicator dashIndicator){
+    public void setDashIndicator(DashIndicator dashIndicator) {
         this.dashIndicator = dashIndicator;
     }
+
+
 
 }
