@@ -15,11 +15,11 @@ public class Ventana extends JFrame {
 
     private void initValues() {
         // ELEMENTOS DE LA VENTANA
-        Pala jugador1 = new Pala("../images/palaA.png", "P1");
+        Pala jugador1 = new Pala("../images/palas/palaA.png", "P1");
         jugador1.setDashIndicator(
                 new DashIndicator("../images/iconDash/iconDashAP1.png", "../images/iconDash/iconDashAP2.png",
                         "../images/iconDash/iconDashAP3.png", "../images/iconDash/iconDashAP4.png"));
-        Pala jugador2 = new Pala("../images/palaB.png", "P2");
+        Pala jugador2 = new Pala("../images/palas/palaB.png", "P2");
         jugador2.setDashIndicator(
                 new DashIndicator("../images/iconDash/iconDashBP1.png", "../images/iconDash/iconDashBP2.png",
                         "../images/iconDash/iconDashBP3.png", "../images/iconDash/iconDashBP4.png"));
