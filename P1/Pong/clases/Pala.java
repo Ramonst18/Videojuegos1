@@ -182,10 +182,6 @@ public class Pala extends JLabel implements Runnable, KeyListener {
                 this.impulso = false;
             }
 
-            // Golpe
-            if (e.getKeyCode() == KeyEvent.VK_X) {
-                this.golpe = false;
-            }
         }
 
     }
@@ -236,6 +232,14 @@ public class Pala extends JLabel implements Runnable, KeyListener {
 
     public void setPelota(Pelota pelota){
         this.pelota = pelota;
+    }
+
+    public boolean getGolpe(){
+        return this.golpe;
+    }
+
+    public void setGolpe(boolean golpe){
+        this.golpe = golpe;
     }
 
 }

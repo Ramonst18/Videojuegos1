@@ -121,8 +121,13 @@ public class Pelota extends JLabel implements Runnable {
             if (aPalas[i].intersects(aPelota.getBounds2D())) {
                 this.XDirection *= -1;
                 
-                //limitamos que el tiempo no pase de tal valor
-                if (this.tiempo != 10) {
+                //Verificamos si la pala esta en modo golpe
+                if (palas[i].getGolpe() && palas[i].getDashIndicator().getCarga() == 4) {
+                    this.tiempo -= 10;
+
+                    palas[i].getDashIndicator().reanudarHilo(0);
+                }else if (this.tiempo >= 10) {
+                    //limitamos que el tiempo no pase de tal valor
                     this.tiempo -= 5;
                 }
 
