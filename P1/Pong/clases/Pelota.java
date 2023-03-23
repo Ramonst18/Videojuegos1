@@ -140,7 +140,7 @@ public class Pelota extends JLabel implements Runnable {
                     //limitamos que el tiempo no pase de tal valor
                     this.tiempo -= 5;
                 }else if (this.tiempo > 10) {
-                    this.tiempo -= 2;
+                    this.tiempo -= 1;
                 }
 
                 //Verificamos que la pala que choca sea la IA

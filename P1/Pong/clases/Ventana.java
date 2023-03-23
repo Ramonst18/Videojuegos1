@@ -6,7 +6,7 @@ import java.awt.event.*;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class Ventana extends JFrame implements KeyListener{
+public class Ventana extends JFrame {
 
     //atributows de la ventana
     private Sonido musicaFondo;
@@ -34,8 +34,7 @@ public class Ventana extends JFrame implements KeyListener{
         JLabel demoImpulso = new JLabel(new ImageIcon(this.getClass().getResource("../images/demoImpulso.png")));
         JLabel demoGolpe = new JLabel(new ImageIcon(this.getClass().getResource("../images/demoGolpe.png")));
         JLabel demoMovimiento = new JLabel(new ImageIcon(this.getClass().getResource("../images/demoMovimiento.png")));
-        JLabel demoPause = new JLabel(new ImageIcon(this.getClass().getResource("../images/demoPause.png")));
-
+        
         // Posicionamos los elementos
         jugador1.setBounds(10, 130, 12, 42);
         jugador2.setBounds(263, 130, 12, 42);
@@ -51,8 +50,7 @@ public class Ventana extends JFrame implements KeyListener{
         demoImpulso.setBounds(10, 10, 90, 30);
         demoGolpe.setBounds(10, 45, 90, 30);
         demoMovimiento.setBounds(205, 10, 90, 80);
-        demoPause.setBounds(10, 80, 90, 30);
-
+        
         //areglo de palas
         Pala[] palas = new Pala[2];
         palas[0] = jugador1;
@@ -145,7 +143,6 @@ public class Ventana extends JFrame implements KeyListener{
         btnStop.addActionListener(listener);
         jugador1.addKeyListener(jugador1);
         jugador2.addKeyListener(jugador2);
-        this.addKeyListener(this);
 
         // FOCUS
         jugador1.setFocusable(true);
@@ -158,7 +155,6 @@ public class Ventana extends JFrame implements KeyListener{
         add(demoImpulso);
         add(demoGolpe);
         add(demoMovimiento);
-        add(demoPause);
         add(jugador1);
         add(jugador1.getScores());
         add(jugador1.getDashIndicator());
@@ -179,25 +175,6 @@ public class Ventana extends JFrame implements KeyListener{
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-    }
-
-    @Override
-    public void keyPressed(KeyEvent arg0) {
-        if (arg0.getKeyCode() == KeyEvent.VK_P) {
-            this.btnPauseResume.doClick();
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent arg0) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
-    }
-
-    @Override
-    public void keyTyped(KeyEvent arg0) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
     }
 
 }
