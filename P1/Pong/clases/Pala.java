@@ -9,7 +9,7 @@ public class Pala extends JLabel implements Runnable, KeyListener {
     // atributos de la clase
     private File file;
     private Pelota pelota;
-    private String url, player;
+    private String url, player, urlGifPotenciado;
     private boolean runStatus = false, arriba = false, abajo = false, pausar = false, stop = false,
             impulso = false, golpe = false;
     private ImageIcon icon;
@@ -19,10 +19,11 @@ public class Pala extends JLabel implements Runnable, KeyListener {
     private Scores scores;
 
     // Constructor
-    public Pala(String url, String player) {
+    public Pala(String url, String player, String urlGifPotenciado) {
         scores = new Scores();
         this.player = player;
         this.url = url;
+        this.urlGifPotenciado = urlGifPotenciado;
         this.file = new File(this.url);
         this.icon = new ImageIcon(this.getClass().getResource(this.url));
         setIcon(icon);
@@ -63,18 +64,23 @@ public class Pala extends JLabel implements Runnable, KeyListener {
                     movimiento(5);
                 }
 
-                //Golpe
-                
+                // Golpe
 
-            }else{
-                //abajo
-                if(pelota.getY() > this.getY()){
+            } else {
+                // Movimiento de la IA
+                if (pelota.getY() > this.getY()) {
                     movimiento(5);
-                }else if(pelota.getY() < this.getY()){//arriba
+                } else if (pelota.getY() < this.getY()) {// arriba
                     movimiento(-5);
                 }
+
+                // Potenciar con una probabilidad del 1%
+                if (!golpe) {
+                    if (Math.random() < 0.01) {
+                        potenciar();
+                    }
+                }
             }
-            
 
             // PAUSA Y RESUMEN DE LA PALA
             try {
@@ -157,10 +163,10 @@ public class Pala extends JLabel implements Runnable, KeyListener {
                 }
 
                 // Golpe
-                if (e.getKeyCode() == KeyEvent.VK_X) {
-                    this.golpe = true;
+                if (e.getKeyCode() == KeyEvent.VK_X && this.dashIndicator.getCarga() == 4) {
+                    potenciar();
                 }
-            } 
+            }
         }
     }
 
@@ -210,6 +216,11 @@ public class Pala extends JLabel implements Runnable, KeyListener {
         // Puntuacion
         this.score = 0;
         this.scores.actualizarPuntaje(score);
+
+        // golpe
+        this.golpe = false;
+        icon = new ImageIcon(this.getClass().getResource(this.url));
+        setIcon(icon);
     }
 
     // GETTERS AND SETTERS
@@ -217,7 +228,7 @@ public class Pala extends JLabel implements Runnable, KeyListener {
         return this.scores;
     }
 
-    public void setScore(int score){
+    public void setScore(int score) {
         this.score += score;
         this.scores.actualizarPuntaje(this.score);
     }
@@ -230,16 +241,29 @@ public class Pala extends JLabel implements Runnable, KeyListener {
         this.dashIndicator = dashIndicator;
     }
 
-    public void setPelota(Pelota pelota){
+    public void setPelota(Pelota pelota) {
         this.pelota = pelota;
     }
 
-    public boolean getGolpe(){
+    public boolean getGolpe() {
         return this.golpe;
     }
 
-    public void setGolpe(boolean golpe){
+    public void setGolpe(boolean golpe) {
         this.golpe = golpe;
     }
 
+    public void potenciar() {
+        if (this.golpe) {
+            // Modo normal
+            this.golpe = false;
+            icon = new ImageIcon(this.getClass().getResource(this.url));
+            setIcon(icon);
+        } else {
+            // Modo potenciado
+            this.golpe = true;
+            icon = new ImageIcon(this.getClass().getResource(this.urlGifPotenciado));
+            setIcon(icon);
+        }
+    }
 }

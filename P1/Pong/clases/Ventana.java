@@ -4,6 +4,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.*;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class Ventana extends JFrame {
 
@@ -15,11 +16,11 @@ public class Ventana extends JFrame {
 
     private void initValues() {
         // ELEMENTOS DE LA VENTANA
-        Pala jugador1 = new Pala("../images/palas/palaA.png", "P1");
+        Pala jugador1 = new Pala("../images/palas/palaA.png", "P1","../images/palas/palaAPotenciado.gif");
         jugador1.setDashIndicator(
                 new DashIndicator("../images/iconDash/iconDashAP1.png", "../images/iconDash/iconDashAP2.png",
                         "../images/iconDash/iconDashAP3.png", "../images/iconDash/iconDashAP4.png"));
-        Pala jugador2 = new Pala("../images/palas/palaB.png", "P2");
+        Pala jugador2 = new Pala("../images/palas/palaB.png", "P2","../images/palas/palaBPotenciado.gif");
         jugador2.setDashIndicator(
                 new DashIndicator("../images/iconDash/iconDashBP1.png", "../images/iconDash/iconDashBP2.png",
                         "../images/iconDash/iconDashBP3.png", "../images/iconDash/iconDashBP4.png"));
@@ -28,6 +29,8 @@ public class Ventana extends JFrame {
         JButton btnStart = new JButton(new ImageIcon(this.getClass().getResource("../images/ButtonStart.png")));
         JButton btnStop = new JButton(new ImageIcon(this.getClass().getResource("../images/btnStop.png")));
         BtnPauseResume btnPauseResume = new BtnPauseResume();
+        JLabel demoImpulso = new JLabel(new ImageIcon(this.getClass().getResource("../images/demoImpulso.png")));
+        JLabel demoGolpe = new JLabel(new ImageIcon(this.getClass().getResource("../images/demoGolpe.png")));
 
         // Posicionamos los elementos
         jugador1.setBounds(10, 130, 12, 42);
@@ -41,6 +44,8 @@ public class Ventana extends JFrame {
         jugador2.getScores().setBounds(165, 6, 30, 30);
         jugador1.getDashIndicator().setBounds(5, 303, 20, 20);
         jugador2.getDashIndicator().setBounds(260, 303, 20, 20);
+        demoImpulso.setBounds(10, 10, 90, 30);
+        demoGolpe.setBounds(10, 45, 90, 30);
 
         //areglo de palas
         Pala[] palas = new Pala[2];
@@ -63,6 +68,10 @@ public class Ventana extends JFrame {
                     Thread P2 = new Thread(jugador2);
                     Thread P2Indicator = new Thread(jugador2.getDashIndicator());
                     Thread Tpelota = new Thread(pelota);
+
+                    //Ocultamos las guias
+                    demoImpulso.setVisible(false);
+                    demoGolpe.setVisible(false);
 
                     //Damos comienzo a los jugadores
                     P1.start();
@@ -114,6 +123,9 @@ public class Ventana extends JFrame {
 
                     btnStart.setEnabled(true);
 
+                    //MOstramos las guias
+                    demoImpulso.setVisible(true);
+                    demoGolpe.setVisible(true);
                 }
             }
         };
@@ -133,6 +145,8 @@ public class Ventana extends JFrame {
         btnStop.setFocusable(false);
 
         // agregamos los elementos a la ventana
+        add(demoImpulso);
+        add(demoGolpe);
         add(jugador1);
         add(jugador1.getScores());
         add(jugador1.getDashIndicator());

@@ -126,7 +126,7 @@ public class Pelota extends JLabel implements Runnable {
                     this.tiempo -= 10;
 
                     palas[i].getDashIndicator().reanudarHilo(0);
-                    palas[i].setGolpe(false);
+                    palas[i].potenciar();
                 }else if (this.tiempo >= 10) {
                     //limitamos que el tiempo no pase de tal valor
                     this.tiempo -= 5;
