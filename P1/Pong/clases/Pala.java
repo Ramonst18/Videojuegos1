@@ -3,7 +3,6 @@ package P1.Pong.clases;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.File;
-import java.awt.geom.*;
 
 public class Pala extends JLabel implements Runnable, KeyListener {
     // atributos de la clase

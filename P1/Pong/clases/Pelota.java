@@ -12,7 +12,7 @@ public class Pelota extends JLabel implements Runnable {
     // atributos de clase
     private ImageIcon icon;
     private Pala[] palas = new Pala[2];
-    private int posX, posY, XDirection = 1, YDirection = 1, tiempo = 80, tiempoT;
+    private int posX, posY, XDirection = 1, YDirection = 1, tiempo = 80;
     private File file;
     private boolean pausar = false, stop = false, impulso = false;
     private JButton btnStop;
