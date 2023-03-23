@@ -42,12 +42,12 @@ public class Pelota extends JLabel implements Runnable {
                 palas[1].setScore(1);
                 resetPosition();
                 randomDirection();
-                this.tiempo = 80;
+                this.tiempo = 60;
             } else if (posX > 280) {
                 palas[0].setScore(1);
                 resetPosition();
                 randomDirection();
-                this.tiempo = 80;
+                this.tiempo = 60;
             }
 
             interseccion();
@@ -123,15 +123,27 @@ public class Pelota extends JLabel implements Runnable {
                 
                 //Verificamos si la pala esta en modo golpe
                 if (palas[i].getGolpe() && palas[i].getDashIndicator().getCarga() == 4) {
-                    this.tiempo -= 10;
+
+                    //verificamos que el tiempo no llegue ser menor de 5
+                    if (this.tiempo > 10) {
+                        this.tiempo -= 10;
+                    }
 
                     palas[i].getDashIndicator().reanudarHilo(0);
                     palas[i].potenciar();
-                }else if (this.tiempo >= 10) {
+                }else if (this.tiempo >= 25) {
                     //limitamos que el tiempo no pase de tal valor
                     this.tiempo -= 5;
+                }else if (this.tiempo > 10) {
+                    this.tiempo -= 2;
                 }
 
+                //Verificamos que la pala que choca sea la IA
+                if (palas[i].getPlayer().equals("P2") && Math.random() < 0.25) {
+                    //Potenciaremos el impulso con una probabilidad del 25%
+                    palas[i].potenciar();
+                }
+                System.out.println(this.tiempo);
             }
         }
     }

@@ -49,7 +49,7 @@ public class Pala extends JLabel implements Runnable, KeyListener {
                 // arriba
                 if (arriba && impulso && this.dashIndicator.getCarga() == 4) {
                     // impulso hacia arriba
-                    movimientoRapido(-15);
+                    movimientoRapido(-20);
                     this.dashIndicator.reanudarHilo(0);
                 } else if (arriba) {
                     movimiento(-5);
@@ -58,7 +58,7 @@ public class Pala extends JLabel implements Runnable, KeyListener {
                 // abajo
                 if (abajo && impulso && this.dashIndicator.getCarga() == 4) {
                     // impulso hacia abajo
-                    movimientoRapido(15);
+                    movimientoRapido(20);
                     this.dashIndicator.reanudarHilo(0);
                 } else if (abajo) {
                     movimiento(5);
@@ -74,12 +74,6 @@ public class Pala extends JLabel implements Runnable, KeyListener {
                     movimiento(-5);
                 }
 
-                // Potenciar con una probabilidad del 1%
-                if (!golpe) {
-                    if (Math.random() < 0.01) {
-                        potenciar();
-                    }
-                }
             }
 
             // PAUSA Y RESUMEN DE LA PALA
@@ -265,5 +259,9 @@ public class Pala extends JLabel implements Runnable, KeyListener {
             icon = new ImageIcon(this.getClass().getResource(this.urlGifPotenciado));
             setIcon(icon);
         }
+    }
+
+    public String getPlayer(){
+        return this.player;
     }
 }
