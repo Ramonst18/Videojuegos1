@@ -4,7 +4,9 @@ import java.io.File;
 import java.awt.geom.*;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class Pelota extends JLabel implements Runnable {
     // atributos de clase
@@ -13,6 +15,7 @@ public class Pelota extends JLabel implements Runnable {
     private int posX, posY, XDirection = 1, YDirection = 1, tiempo = 80, tiempoT;
     private File file;
     private boolean pausar = false, stop = false, impulso = false;
+    private JButton btnStop;
 
     // Constructor
     public Pelota(String url) {
@@ -43,11 +46,13 @@ public class Pelota extends JLabel implements Runnable {
                 resetPosition();
                 randomDirection();
                 this.tiempo = 60;
+                verificarGanador();
             } else if (posX > 280) {
                 palas[0].setScore(1);
                 resetPosition();
                 randomDirection();
                 this.tiempo = 60;
+                verificarGanador();
             }
 
             interseccion();
@@ -170,11 +175,27 @@ public class Pelota extends JLabel implements Runnable {
         }
     }
 
+    private void verificarGanador(){
+        //verificamos si el jugador uno gano
+        if (palas[0].getScores().getScore() == 5) {
+            this.btnStop.doClick();
+            JOptionPane.showMessageDialog(null,"El ganador es el primer jugador");
+            
+        }else if (palas[1].getScores().getScore() == 5) {
+            this.btnStop.doClick();
+            JOptionPane.showMessageDialog(null,"El ganador es el segundo jugador");
+        }
+    }
+
     // GETTERS AND SETTERS
     public void setPalas(Pala[] palas) {
         this.palas = palas;
     }
 
+    public void setBtnStop(JButton btnStop){
+        this.btnStop = btnStop;
+    }
+    
     // METODOS SINCRONIZADOS
     synchronized void pausarHilo() {
         pausar = true;
@@ -188,6 +209,7 @@ public class Pelota extends JLabel implements Runnable {
     synchronized void stopHilo() {
         stop = true;
         pausar = false;
+        this.tiempo = 80;
         notify();
     }
 }

@@ -15,7 +15,6 @@ public class Pala extends JLabel implements Runnable, KeyListener {
     private ImageIcon icon;
     private DashIndicator dashIndicator;
     private int score = 0, posY;
-    private Area aPala, aPelota;
     private Scores scores;
 
     // Constructor
@@ -35,8 +34,6 @@ public class Pala extends JLabel implements Runnable, KeyListener {
         stop = false;
 
         this.posY = this.getY();
-        aPala = new Area(this.getBounds());
-        aPelota = new Area(pelota.getBounds());
 
         // ejecucion continua del hilo
         while (true) {

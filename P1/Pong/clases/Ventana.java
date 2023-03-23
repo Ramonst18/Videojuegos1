@@ -6,9 +6,11 @@ import java.awt.event.*;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class Ventana extends JFrame {
+public class Ventana extends JFrame implements KeyListener{
 
+    //atributows de la ventana
     private Sonido musicaFondo;
+    private BtnPauseResume btnPauseResume;
 
     public Ventana() {
         initValues();
@@ -28,9 +30,11 @@ public class Ventana extends JFrame {
         Pelota pelota = new Pelota("../images/pelota.png");
         JButton btnStart = new JButton(new ImageIcon(this.getClass().getResource("../images/ButtonStart.png")));
         JButton btnStop = new JButton(new ImageIcon(this.getClass().getResource("../images/btnStop.png")));
-        BtnPauseResume btnPauseResume = new BtnPauseResume();
+        btnPauseResume = new BtnPauseResume();
         JLabel demoImpulso = new JLabel(new ImageIcon(this.getClass().getResource("../images/demoImpulso.png")));
         JLabel demoGolpe = new JLabel(new ImageIcon(this.getClass().getResource("../images/demoGolpe.png")));
+        JLabel demoMovimiento = new JLabel(new ImageIcon(this.getClass().getResource("../images/demoMovimiento.png")));
+        JLabel demoPause = new JLabel(new ImageIcon(this.getClass().getResource("../images/demoPause.png")));
 
         // Posicionamos los elementos
         jugador1.setBounds(10, 130, 12, 42);
@@ -46,6 +50,8 @@ public class Ventana extends JFrame {
         jugador2.getDashIndicator().setBounds(260, 303, 20, 20);
         demoImpulso.setBounds(10, 10, 90, 30);
         demoGolpe.setBounds(10, 45, 90, 30);
+        demoMovimiento.setBounds(205, 10, 90, 80);
+        demoPause.setBounds(10, 80, 90, 30);
 
         //areglo de palas
         Pala[] palas = new Pala[2];
@@ -56,6 +62,7 @@ public class Ventana extends JFrame {
         pelota.setPalas(palas);
         jugador1.setPelota(pelota);
         jugador2.setPelota(pelota);
+        pelota.setBtnStop(btnStop);
 
         // KEYLISTENNER
         ActionListener listener = new ActionListener() {
@@ -72,6 +79,7 @@ public class Ventana extends JFrame {
                     //Ocultamos las guias
                     demoImpulso.setVisible(false);
                     demoGolpe.setVisible(false);
+                    demoMovimiento.setVisible(false);
 
                     //Damos comienzo a los jugadores
                     P1.start();
@@ -126,6 +134,7 @@ public class Ventana extends JFrame {
                     //MOstramos las guias
                     demoImpulso.setVisible(true);
                     demoGolpe.setVisible(true);
+                    demoMovimiento.setVisible(true);
                 }
             }
         };
@@ -136,6 +145,7 @@ public class Ventana extends JFrame {
         btnStop.addActionListener(listener);
         jugador1.addKeyListener(jugador1);
         jugador2.addKeyListener(jugador2);
+        this.addKeyListener(this);
 
         // FOCUS
         jugador1.setFocusable(true);
@@ -147,6 +157,8 @@ public class Ventana extends JFrame {
         // agregamos los elementos a la ventana
         add(demoImpulso);
         add(demoGolpe);
+        add(demoMovimiento);
+        add(demoPause);
         add(jugador1);
         add(jugador1.getScores());
         add(jugador1.getDashIndicator());
@@ -167,6 +179,25 @@ public class Ventana extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+    }
+
+    @Override
+    public void keyPressed(KeyEvent arg0) {
+        if (arg0.getKeyCode() == KeyEvent.VK_P) {
+            this.btnPauseResume.doClick();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent arg0) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
+    }
+
+    @Override
+    public void keyTyped(KeyEvent arg0) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
     }
 
 }
