@@ -49,7 +49,7 @@ public class Ventana extends JFrame {
         jugador2.getDashIndicator().setBounds(260, 303, 20, 20);
         demoImpulso.setBounds(10, 10, 90, 30);
         demoGolpe.setBounds(10, 45, 90, 30);
-        demoMovimiento.setBounds(205, 10, 90, 80);
+        demoMovimiento.setBounds(205, 10, 90, 65);
         
         //areglo de palas
         Pala[] palas = new Pala[2];

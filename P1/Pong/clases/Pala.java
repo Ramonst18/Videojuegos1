@@ -177,9 +177,7 @@ public class Pala extends JLabel implements Runnable, KeyListener {
             if (e.getKeyCode() == KeyEvent.VK_Z) {
                 this.impulso = false;
             }
-
         }
-
     }
 
     // METODOS SINCRONIZADOS
