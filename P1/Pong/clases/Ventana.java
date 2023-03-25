@@ -87,6 +87,7 @@ public class Ventana extends JFrame {
                     Tpelota.start();
 
                     btnStart.setEnabled(false);
+                    btnPauseResume.setEnabled(true);
 
                     musicaFondo = new Sonido("../music/musicPong.wav");
                     musicaFondo.play();
@@ -128,6 +129,7 @@ public class Ventana extends JFrame {
                     pelota.stopHilo();
 
                     btnStart.setEnabled(true);
+                    btnPauseResume.setEnabled(false);
 
                     //MOstramos las guias
                     demoImpulso.setVisible(true);
@@ -143,6 +145,7 @@ public class Ventana extends JFrame {
         btnStop.addActionListener(listener);
         jugador1.addKeyListener(jugador1);
         jugador2.addKeyListener(jugador2);
+        btnPauseResume.setEnabled(false);
 
         // FOCUS
         jugador1.setFocusable(true);
