@@ -16,6 +16,8 @@ public class Ventana4 extends JFrame{
         //Elementos de la ventana
         Monito monito = new Monito("images/mario1.png", "images/mario2.png");
         JButton btnStart = new JButton("Start");
+        Circulo c1 = new Circulo();
+        monito.c1 = c1;
         //JButton btnPause = new JButton("Pause");
         //JButton btnReanudar = new JButton("Reanudar");
         //JButton btnStop = new JButton("Stop");
@@ -23,6 +25,7 @@ public class Ventana4 extends JFrame{
         //posiciones de los elementos
         monito.setBounds(10, 10, 42, 42);
         btnStart.setBounds(10, 60, 75, 25);
+        c1.setBounds(10, 10, 70, 50);
         //btnPause.setBounds(90, 60, 75, 25);
         //btnReanudar.setBounds(170, 60, 75, 25);
         //btnStop.setBounds(250, 60, 75, 25);
@@ -69,7 +72,9 @@ public class Ventana4 extends JFrame{
         //btnStop.addActionListener(listener);
 
         //agregamos los elementos a la ventana
+        
         add(monito);
+        add(c1);
         add(btnStart);
         //add(btnPause);
         //add(btnReanudar);

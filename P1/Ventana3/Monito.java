@@ -9,6 +9,7 @@ public class Monito extends JLabel implements Runnable, KeyListener {
     private ImageIcon icon;
     private File file;
     private boolean moveStatus = false, pausar, stop, runStatus = false, bandera = true;
+    Circulo c1;
 
     public Monito(String url1, String url2) {
         this.url1 = url1;
@@ -66,6 +67,9 @@ public class Monito extends JLabel implements Runnable, KeyListener {
             } catch (Exception e) {
                 // TODO: handle exception
             }
+
+            c1.moverCirculo();
+            c1.repaint();
         }
     }
 
