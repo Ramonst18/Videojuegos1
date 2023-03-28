@@ -29,34 +29,68 @@ public class Reloj extends JPanel implements Runnable {
     }
 
     private void moverLinea() {
+        /*
         //posicion abajo derecha
         if (y2 == 90 && x2 == 90) {
             System.out.println("abajo derecha");
             x = -1;
             y = 0;
+            System.out.println(Math.sqrt((y2)^2+(x2)^2));
         }
         //Posicion abajo izquierda
         if (y2 == 90 && x2 == 0) {
             x=0;
             y=-1;
             System.out.println("Abajo izquierda");
+            System.out.println(Math.sqrt((y2)^2+(x2)^2));
         }
         //posicion arriba izquierda
         if (y2 == 0 && x2 == 0) {
             System.out.println("Arriba izquierda");
             x=1;
             y=0;
-
+            System.out.println(Math.sqrt((y2)^2+(x2)^2));
         }
         //posicion arriba derecha
         if (y2 == 0 && x2 == 90) {
             System.out.println("Arriba derecha");
             y=1;
             x=0;
+            System.out.println(Math.sqrt((y2)^2+(x2)^2));
+        }
+        */
+
+        //abajo derecha
+        if (y2>67 && x2>67) {
+            x = -1;
+            y = 1;
+        }
+
+        //limitamos la mayor distancia de y
+        if (y2==90) {
+            y = 0;
+        }
+
+        //limitamos la mayor distancia de x
+        if (x2 == 90) {
+            x = 0;
+        }
+
+        //medio abajo
+        if (x2 == 0 && y2 == 90) {
+            y = -1;
+        }
+
+        //abajo izquierda
+        if (x2<22 && y2 < 67) {
+            System.out.println("aaa");
         }
 
         x2 += x;
         y2 += y;
+        System.out.println();
+        System.out.println(x2);
+        System.out.println(y2);
     }
 
     public void paint(Graphics g) {
