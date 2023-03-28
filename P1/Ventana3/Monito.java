@@ -68,8 +68,9 @@ public class Monito extends JLabel implements Runnable, KeyListener {
                 // TODO: handle exception
             }
 
-            c1.moverCirculo();
-            c1.repaint();
+            //c1.moverCirculo();
+            //c1.moverLinea();
+            //c1.repaint();
         }
     }
 
