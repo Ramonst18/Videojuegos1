@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 public class Reloj extends JPanel implements Runnable {
     // Atributos
     private int x2 = 90, y2 = 45;
-    private int x = 0, y = 1;
+    private int x = -1, y = 1;
 
     public void run() {
 
@@ -20,7 +20,7 @@ public class Reloj extends JPanel implements Runnable {
             this.repaint();
 
             try {
-                Thread.sleep(50);
+                Thread.sleep(1000);
             } catch (Exception e) {
                 // TODO: handle exception
             }
@@ -29,61 +29,30 @@ public class Reloj extends JPanel implements Runnable {
     }
 
     private void moverLinea() {
-        /*
-        //posicion abajo derecha
-        if (y2 == 90 && x2 == 90) {
-            System.out.println("abajo derecha");
-            x = -1;
-            y = 0;
-            System.out.println(Math.sqrt((y2)^2+(x2)^2));
-        }
-        //Posicion abajo izquierda
-        if (y2 == 90 && x2 == 0) {
-            x=0;
-            y=-1;
-            System.out.println("Abajo izquierda");
-            System.out.println(Math.sqrt((y2)^2+(x2)^2));
-        }
-        //posicion arriba izquierda
-        if (y2 == 0 && x2 == 0) {
-            System.out.println("Arriba izquierda");
-            x=1;
-            y=0;
-            System.out.println(Math.sqrt((y2)^2+(x2)^2));
-        }
-        //posicion arriba derecha
-        if (y2 == 0 && x2 == 90) {
-            System.out.println("Arriba derecha");
-            y=1;
-            x=0;
-            System.out.println(Math.sqrt((y2)^2+(x2)^2));
-        }
-        */
-
-        //abajo derecha
-        if (y2>67 && x2>67) {
+        
+        //derecha
+        if (y2 == 45 && x2 == 90) {
+            
             x = -1;
             y = 1;
+            
         }
 
-        //limitamos la mayor distancia de y
-        if (y2==90) {
-            y = 0;
+        //abajo
+        if (y2 == 90 && x2 == 45) {
+            x = -1;
+            y = -1;
         }
-
-        //limitamos la mayor distancia de x
-        if (x2 == 90) {
-            x = 0;
-        }
-
-        //medio abajo
-        if (x2 == 0 && y2 == 90) {
+        //izquierda
+        if (y2 == 45 && x2 == 0) {
+            x = 1;
             y = -1;
         }
 
-        //abajo izquierda
-        if (x2<22 && y2 < 67) {
-            System.out.println("aaa");
+        //arriba
+        if (y2 == 0 && x2 == 45) {
+            x = 1;
+            y = 1;
         }
 
         x2 += x;
@@ -106,7 +75,7 @@ public class Reloj extends JPanel implements Runnable {
 
         // DIbujamos una linea de las posiciones x1,y1 a x2,y2
         g2d.drawLine(45, 45, x2, y2);
-
+        g2d.drawOval(0, 0, 90, 90);
     }
 
 }
